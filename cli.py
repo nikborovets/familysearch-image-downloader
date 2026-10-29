@@ -62,7 +62,7 @@ def get_session(interactive: bool) -> str:
         print("Using the saved fssessionid.")
         return value
     if not interactive:
-        raise DownloadError("No saved fssessionid. Run 'python cli.py login' first.")
+        raise DownloadError("No saved fssessionid. Run 'fsd login' first.")
     return ask_fssessionid()
 
 
@@ -123,7 +123,7 @@ def download_urls(args: argparse.Namespace) -> BatchResult:
         print("FamilySearch rejected this fssessionid.")
         clear_fssessionid()
         if not interactive:
-            raise DownloadError("Run 'python cli.py login' with a fresh value, then retry.")
+            raise DownloadError("Run 'fsd login' with a fresh value, then retry.")
         return ask_fssessionid()
 
     while jobs:
@@ -219,7 +219,7 @@ def bounded_integer(minimum: int, maximum: int):
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="familysearch",
+        prog="fsd",
         description="Download FamilySearch document images as single JPEG files.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)

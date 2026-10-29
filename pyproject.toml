@@ -1,3 +1,27 @@
+[project]
+name = "familysearch-image-downloader"
+version = "0.1.0"
+description = "Download FamilySearch document images and image groups as full-resolution JPEGs."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "Pillow>=11,<13",
+    "requests>=2.32,<3",
+]
+
+[project.scripts]
+fsd = "cli:main"
+
+[dependency-groups]
+dev = ["ruff==0.17.2"]
+
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["cli", "downloader"]
+
 [tool.ruff]
 target-version = "py311"
 line-length = 100

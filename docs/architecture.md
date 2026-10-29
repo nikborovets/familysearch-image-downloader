@@ -10,9 +10,13 @@
 6. Worker threads download tiles using separate HTTP sessions and a shared request pacer.
 7. Pillow assembles tiles with their overlap. A JPEG is saved to a temporary file beside the destination and atomically replaces it after saving succeeds.
 
+## Environment and dependencies
+
+`pyproject.toml` declares Python compatibility, runtime dependencies, and a `dev` dependency group. `uv.lock` records the resolved versions across supported Python versions. Setuptools packages the explicit `cli` and `downloader` modules and exposes `fsd = "cli:main"` as a console entry point. `uv sync` installs the project in editable mode into `.venv`; `fsd` then works after environment activation, or through `uv run --locked --no-dev fsd`. CI syncs the development environment with `uv sync --locked` and tests Python 3.11–3.14.
+
 ## Design decisions
 
-- Two application modules keep the CLI runnable without packaging. A package would become useful with another interface or additional image sources.
+- Two explicitly packaged application modules keep installation small. The console entry point delegates to `cli.main`, which returns the process exit code. Relative file paths follow the caller's working directory.
 - HTTP failures become `DownloadError`; authentication rejection becomes `SessionRejected`. The CLI owns session refresh and queue decisions.
 - A failed group counts as one failure because its page count may be unknown.
 - Limits are 100 tiles per axis, 2,500 tiles total, and 250 million pixels. Exceeding an axis limit raises an error instead of silently cropping the image.

@@ -4,7 +4,7 @@
 
 **Download archive pages as full-resolution JPEGs, in reading order.**
 
-Python 3.11+ · CLI · Individual pages and complete image groups · Resume support
+Python 3.11+ · uv · CLI · Individual pages and complete image groups · Resume support
 
 [Quick start](#quick-start) · [Links and tables](#links-and-tables) · [Options](#options) · [Development](#development)
 
@@ -28,32 +28,28 @@ The runnable example downloads one page from the **United States Census, 1900**:
 
 The image preview and its group metadata were checked with a signed-in session on October 30, 2026. FamilySearch may require you to sign in; access depends on your account. Offline tests continue to use synthetic fixtures.
 
-Requires Python 3.11+ and a signed-in FamilySearch session with access to the requested images.
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and use a signed-in FamilySearch session with access to the requested images. The project supports Python 3.11+; uv can install a compatible Python when needed.
 
-### macOS
+### Install and run
 
 From the repository directory:
 
 ```bash
-./run.command login
-./run.command download "https://www.familysearch.org/ark:/61903/3:1:S3HT-6WLQ-WX3?i=13"
+uv sync --locked --no-dev
+source .venv/bin/activate
+fsd login
+fsd download "https://www.familysearch.org/ark:/61903/3:1:S3HT-6WLQ-WX3?i=13"
 ```
 
-The launcher creates `.venv` and installs dependencies when needed.
+On Windows PowerShell, activate with `.venv\Scripts\Activate.ps1` instead. `uv sync` installs the `fsd` command into the project environment.
 
-### Linux / Windows
+You can also run it without activating the environment:
 
 ```bash
-python -m venv .venv
-# Linux:
-source .venv/bin/activate
-# Windows PowerShell:
-# .venv\Scripts\Activate.ps1
-
-python -m pip install -r requirements.txt
-python cli.py login
-python cli.py download "https://www.familysearch.org/ark:/61903/3:1:S3HT-6WLQ-WX3?i=13"
+uv run --locked --no-dev fsd --help
 ```
+
+On macOS and Linux, `.venv/bin/fsd` works directly; on Windows, use `.venv\Scripts\fsd.exe`. After activation, the installed command works from any directory.
 
 ### Authentication
 
@@ -70,7 +66,7 @@ The session is stored locally, outside the repository:
 On POSIX systems, the file is created with mode `600`. If FamilySearch rejects the session, an interactive run asks for a replacement; an unattended run exits with an error. To remove the saved value:
 
 ```bash
-python cli.py logout
+fsd logout
 ```
 
 ## Links and tables
@@ -88,7 +84,7 @@ Each search link must contain one numeric `imageGroupNumbers` value. The public 
 Pass several URLs as arguments, or use an input file:
 
 ```bash
-python cli.py download --from-file examples/urls.txt
+fsd download --from-file examples/urls.txt
 ```
 
 Markdown tables work too. Save personal tables under `private/`, or try the supplied public example:
@@ -100,7 +96,7 @@ Markdown tables work too. Save personal tables under `private/`, or try the supp
 ```
 
 ```bash
-python cli.py download --from-file examples/cases.md
+fsd download --from-file examples/cases.md
 ```
 
 Markdown input supports multiple links in one cell. Other columns do not affect downloading: links are processed in their input order, and folder names come from FamilySearch metadata. Exact duplicate input links are processed once.
@@ -119,11 +115,11 @@ For `.txt` files, use one URL per line. Blank lines and lines starting with `#` 
 | `--workers 1…16` | `4` | Concurrent tile download workers |
 
 ```bash
-python cli.py download --from-file private/cases.md --out ./archive --quality 95 --workers 4
-python cli.py download --help
+fsd download --from-file private/cases.md --out ./archive --quality 95 --workers 4
+fsd download --help
 ```
 
-`run.command` runs from the repository directory, so relative paths are resolved from there. When calling `python cli.py` directly, paths are relative to the terminal's current directory.
+Relative input and output paths are resolved from the terminal's current directory. Run the examples from the repository root, or pass absolute paths when using `fsd` elsewhere.
 
 ## Output and resuming
 
@@ -168,11 +164,14 @@ The tool uses internal FamilySearch endpoints, which may change. Your session mu
 ## Development
 
 ```bash
-python -m pip install -r requirements-dev.txt
-python -m unittest discover -s tests -v
-python -m ruff check .
-python -m ruff format --check .
+uv sync --locked
+uv run --locked fsd --help
+uv run --locked python -m unittest discover -s tests -v
+uv run --locked ruff check .
+uv run --locked ruff format --check .
 ```
+
+Development dependencies are in the `dev` group, included by default. Use `uv add PACKAGE` for runtime dependencies and `uv add --dev PACKAGE` for development tools. Commit both `pyproject.toml` and `uv.lock` after dependency changes; use `uv lock --upgrade` for an intentional dependency update.
 
 Tests run offline without an account. They cover URL parsing, CLI behavior, session storage, grid bounds, tile assembly, failure recovery, and API response handling. The GitHub Actions configuration tests Python 3.11–3.14.
 
@@ -183,7 +182,7 @@ Tests run offline without an account. They cover URL parsing, CLI behavior, sess
 | [`tests/`](tests/) | Offline regression tests with synthetic inputs |
 | [`docs/architecture.md`](docs/architecture.md) | Design, limitations, and possible improvements |
 | [`docs/publication.md`](docs/publication.md) | Proposed publication contents and review procedure |
-| [`run.command`](run.command) | macOS launcher using a local environment |
+| [`pyproject.toml`](pyproject.toml) / [`uv.lock`](uv.lock) | Dependency declarations and reproducible resolution |
 
 ## Agent instructions
 

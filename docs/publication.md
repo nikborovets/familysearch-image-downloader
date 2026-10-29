@@ -20,12 +20,10 @@ downloader.py
 examples/cases.md
 examples/urls.txt
 pyproject.toml
-requirements-dev.txt
-requirements.txt
-run.command
 tests/test_downloader.py
 tests/test_image_groups.py
 tests/test_reliability.py
+uv.lock
 ```
 
 Offline test fixtures and generic folder layouts use fictional identifiers. Runnable examples use one independently sourced public census page, as requested by the user. Its provenance is recorded in the README and example files.

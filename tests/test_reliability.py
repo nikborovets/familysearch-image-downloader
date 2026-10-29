@@ -138,7 +138,7 @@ class CliTests(unittest.TestCase):
             ) as download,
             patch(
                 "sys.argv",
-                ["familysearch", "download", URL, URL.replace("TEST-1", "TEST-2"), "-o", directory],
+                ["fsd", "download", URL, URL.replace("TEST-1", "TEST-2"), "-o", directory],
             ),
             redirect_stdout(io.StringIO()) as output,
             redirect_stderr(io.StringIO()),
@@ -150,7 +150,7 @@ class CliTests(unittest.TestCase):
     def test_invalid_input_does_not_request_session(self):
         with (
             patch("cli.get_session") as session,
-            patch("sys.argv", ["familysearch", "download"]),
+            patch("sys.argv", ["fsd", "download"]),
             redirect_stderr(io.StringIO()),
         ):
             self.assertEqual(cli.main(), 1)

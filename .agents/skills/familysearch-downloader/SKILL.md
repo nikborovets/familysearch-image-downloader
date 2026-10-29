@@ -9,12 +9,13 @@ Use the repository's CLI to download documents, and follow these shared instruct
 
 ## Locate and run
 
-Find the checkout by its `cli.py`, `downloader.py`, and `requirements.txt`. When this skill is installed as a symlink, resolve its target to locate the checkout. Run commands from the repository root. If working from a different machine, use that machine's checkout rather than a hard-coded author path.
+Find the checkout by its `cli.py`, `downloader.py`, `pyproject.toml`, and `uv.lock`. When this skill is installed as a symlink, resolve its target to locate the checkout. Run commands from the repository root. If working from a different machine, use that machine's checkout rather than a hard-coded author path.
 
-- macOS: `./run.command download "URL"` bootstraps the local virtual environment.
-- Other systems: create `.venv`, install `requirements.txt`, and run `python cli.py download "URL"` with that environment activated.
-- Batch: `python cli.py download --from-file cases.md --out downloads`.
-- Saved authentication: `python cli.py login`; removal: `python cli.py logout`.
+- Install uv if needed, then run `uv sync --locked --no-dev` in the checkout. This installs the `fsd` console command into `.venv`.
+- Activate with `source .venv/bin/activate` on macOS/Linux or `.venv\Scripts\Activate.ps1` in Windows PowerShell; then run `fsd download "URL"`. Without activation, use `uv run --locked --no-dev fsd download "URL"` from the checkout.
+- Batch: `fsd download --from-file cases.md --out downloads`.
+- Saved authentication: `fsd login`; removal: `fsd logout`.
+- Once installed, `fsd` works from any directory; relative input and output paths follow the caller's working directory.
 
 `login` requires the user to paste their browser's `fssessionid` into a hidden terminal prompt. Reuse the saved session without printing it. If no session is available, ask the user to run `login` in their terminal; do not ask them to send the cookie through chat. Do not include cookies, authorization headers, or their cache in artifacts or commits.
 
@@ -45,15 +46,19 @@ Read [README.md](../../../README.md) for usage and [docs/architecture.md](../../
 - Keep session rejection separate from general download errors so the CLI can refresh authentication.
 - FamilySearch's internal API may change. Use mock responses for offline regression tests and, when a saved session exists and the task warrants it, a small live check. Do not treat mock tests as evidence of live access.
 
-For relevant code changes, install `requirements-dev.txt` and run:
+For relevant code changes, sync the default development environment and run:
 
 ```bash
-python -m unittest discover -s tests -v
-python -m ruff check .
-python -m ruff format --check .
+uv sync --locked
+uv run --locked fsd --help
+uv run --locked python -m unittest discover -s tests -v
+uv run --locked ruff check .
+uv run --locked ruff format --check .
 ```
 
-Publish source, tests, documentation, examples and this skill. Keep downloaded images, local credentials, caches, research notes and transcriptions out of Git. Preserve the README attribution to `thefirans/familysearch-image-downloader`. Check the actual upstream license before adding or changing licensing claims; attribution alone does not establish a license.
+Dependencies are declared in `pyproject.toml`; `uv.lock` is committed. Use `uv add` or `uv add --dev` for dependency changes and update the lockfile deliberately. Runtime setup uses `--no-dev`; development commands include the default `dev` group. The `fsd` entry point is declared in `[project.scripts]` and installed by the build backend; preserve its exit codes. Do not use an exact sync to clean an existing environment containing unrelated research tools; use an isolated environment for verification.
+
+Publish source, tests, documentation, examples, the lockfile and this skill. Keep downloaded images, local credentials, caches, research notes and transcriptions out of Git. Preserve the README attribution to `thefirans/familysearch-image-downloader`. Check the actual upstream license before adding or changing licensing claims; attribution alone does not establish a license.
 
 ## Publication and examples
 
