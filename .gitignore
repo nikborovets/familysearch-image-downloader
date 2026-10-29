@@ -1,0 +1,27 @@
+.DS_Store
+.venv/
+__pycache__/
+*.py[cod]
+.streamlit/secrets.toml
+downloads/
+test*_downloads/
+*.jpg
+*.jpeg
+*.png
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+build/
+dist/
+.env
+.env.*
+# Local archival research, separate from the public downloader source.
+reports/
+research_notes/
+transcriptions/
+
+# Personal URL lists and other unpublished input.
+private/

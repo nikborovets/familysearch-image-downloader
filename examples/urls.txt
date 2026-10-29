@@ -1,0 +1,4 @@
+# Fictional placeholders, not real download targets. Replace with your own URLs locally.
+# One image group per URL. Blank lines and comments are ignored.
+https://www.familysearch.org/en/records/images/search-results?imageGroupNumbers=000000001
+https://www.familysearch.org/en/records/images/search-results?imageGroupNumbers=000000002
