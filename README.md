@@ -24,7 +24,9 @@ The downloader retrieves available FamilySearch DeepZoom tiles and assembles the
 
 ## Quick start
 
-All document identifiers, archive references, and document links below are **fictional placeholders**. Replace them with your own links before downloading. Store personal URL lists in the ignored `private/` directory.
+The runnable example downloads one page from the **United States Census, 1900**: [open the census image](https://www.familysearch.org/ark:/61903/3:1:S3HT-6WLQ-WX3?i=13). This example was selected independently from a [public FamilySearch Community discussion](https://community.familysearch.org/en/discussion/92300/why-cant-i-find-a-name-in-a-fs-census-record-but-i-can-find-it-on-ancestry-com), rather than from personal research inputs. Store your own URL lists in the ignored `private/` directory.
+
+The image preview and its group metadata were checked with a signed-in session on October 30, 2026. FamilySearch may require you to sign in; access depends on your account. Offline tests continue to use synthetic fixtures.
 
 Requires Python 3.11+ and a signed-in FamilySearch session with access to the requested images.
 
@@ -34,7 +36,7 @@ From the repository directory:
 
 ```bash
 ./run.command login
-./run.command download "https://www.familysearch.org/en/records/images/search-results?imageGroupNumbers=000000001"
+./run.command download "https://www.familysearch.org/ark:/61903/3:1:S3HT-6WLQ-WX3?i=13"
 ```
 
 The launcher creates `.venv` and installs dependencies when needed.
@@ -50,7 +52,7 @@ source .venv/bin/activate
 
 python -m pip install -r requirements.txt
 python cli.py login
-python cli.py download "https://www.familysearch.org/en/records/images/search-results?imageGroupNumbers=000000001"
+python cli.py download "https://www.familysearch.org/ark:/61903/3:1:S3HT-6WLQ-WX3?i=13"
 ```
 
 ### Authentication
@@ -79,32 +81,31 @@ Quote URLs containing `&` or `?` in shell commands.
 | --- | --- |
 | `/ark:/61903/3:1:…?i=0` | One page; `i` is zero-based |
 | `/ark:/61903/3:1:…?groupId=TH-…` | Every page in the group |
-| `/en/records/images/search-results?imageGroupNumbers=000000001` | Every page in the specified DGS image group |
+| `/en/records/images/search-results?imageGroupNumbers=004115246` | Every page in the specified DGS image group |
 
-Each search link must contain one numeric `imageGroupNumbers` value. Pass several URLs to download several groups:
+Each search link must contain one numeric `imageGroupNumbers` value. The public census page belongs to [DGS 004115246](https://www.familysearch.org/en/records/images/search-results?imageGroupNumbers=004115246), titled *12th Census of Population 1900*. The group contained **1,128 images** when checked. A group link downloads the entire group; use the single-page example above for a quick first run.
+
+Pass several URLs as arguments, or use an input file:
 
 ```bash
-python cli.py download \
-  "https://www.familysearch.org/en/records/images/search-results?imageGroupNumbers=000000002" \
-  "https://www.familysearch.org/en/records/images/search-results?imageGroupNumbers=000000003"
+python cli.py download --from-file examples/urls.txt
 ```
 
-Or save a table to `private/cases.md`:
+Markdown tables work too. Save personal tables under `private/`, or try the supplied public example:
 
 ```markdown
-| Priority | Archive | FS |
+| Priority | Document | FS |
 | --- | --- | --- |
-| 1 | DEMO-1 | [Example 1](https://www.familysearch.org/en/records/images/search-results?imageGroupNumbers=000000001) |
-| 2 | DEMO-2 | [Example 2](https://www.familysearch.org/en/records/images/search-results?imageGroupNumbers=000000002), [Example 3](https://www.familysearch.org/en/records/images/search-results?imageGroupNumbers=000000003) |
+| 1 | United States Census, 1900 — sample page | [Open image](https://www.familysearch.org/ark:/61903/3:1:S3HT-6WLQ-WX3?i=13) |
 ```
 
 ```bash
-python cli.py download --from-file private/cases.md
+python cli.py download --from-file examples/cases.md
 ```
 
 Markdown input supports multiple links in one cell. Other columns do not affect downloading: links are processed in their input order, and folder names come from FamilySearch metadata. Exact duplicate input links are processed once.
 
-See the fictional table in [`examples/cases.md`](examples/cases.md).
+See the public single-page example in [`examples/cases.md`](examples/cases.md).
 
 For `.txt` files, use one URL per line. Blank lines and lines starting with `#` are ignored. See [`examples/urls.txt`](examples/urls.txt).
 
@@ -125,6 +126,8 @@ python cli.py download --help
 `run.command` runs from the repository directory, so relative paths are resolved from there. When calling `python cli.py` directly, paths are relative to the terminal's current directory.
 
 ## Output and resuming
+
+The single-page example saves `downloads/0014_familysearch_S3HT-6WLQ-WX3.jpg`. The generic group layout below uses fictional names:
 
 ```text
 downloads/

@@ -1,4 +1,4 @@
-# Fictional placeholders, not real download targets. Replace with your own URLs locally.
-# One image group per URL. Blank lines and comments are ignored.
-https://www.familysearch.org/en/records/images/search-results?imageGroupNumbers=000000001
-https://www.familysearch.org/en/records/images/search-results?imageGroupNumbers=000000002
+# Public example: one page from the United States Census, 1900.
+# Provenance: https://community.familysearch.org/en/discussion/92300/why-cant-i-find-a-name-in-a-fs-census-record-but-i-can-find-it-on-ancestry-com
+# FamilySearch sign-in may be required. This downloads one image, not the whole group.
+https://www.familysearch.org/ark:/61903/3:1:S3HT-6WLQ-WX3?i=13

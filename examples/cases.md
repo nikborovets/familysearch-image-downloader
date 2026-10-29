@@ -1,5 +1,6 @@
-<!-- Fictional placeholders for offline illustration. Replace with your own URLs locally. -->
-| Priority | Archive | FS | Purpose |
+<!-- Independently sourced public example, not personal research input. -->
+<!-- Source: public FamilySearch Community discussion; full provenance in README. -->
+<!-- Downloads one page. FamilySearch sign-in may be required. -->
+| Priority | Document | FS | Purpose |
 | --- | --- | --- | --- |
-| 1 | DEMO-1 | [Example group 1](https://www.familysearch.org/en/records/images/search-results?imageGroupNumbers=000000001) | Example only |
-| 2 | DEMO-2 | [Example group 2](https://www.familysearch.org/en/records/images/search-results?imageGroupNumbers=000000002), [Example group 3](https://www.familysearch.org/en/records/images/search-results?imageGroupNumbers=000000003) | Example only |
+| 1 | United States Census, 1900 | [Open census page](https://www.familysearch.org/ark:/61903/3:1:S3HT-6WLQ-WX3?i=13) | Try a single-page download |
