@@ -112,10 +112,10 @@ For `.txt` files, use one URL per line. Blank lines and lines starting with `#` 
 | `-f, --from-file FILE` | — | URL list or Markdown table |
 | `-o, --out DIR` | `downloads` | Output directory |
 | `--quality 70…100` | `95` | JPEG quality |
-| `--workers 1…16` | `4` | Concurrent tile download workers |
+| `--workers 1…16` | `8` | Concurrent tile download workers |
 
 ```bash
-fsd download --from-file private/cases.md --out ./archive --quality 95 --workers 4
+fsd download --from-file private/cases.md --out ./archive --quality 95 --workers 8
 fsd download --help
 ```
 
@@ -137,7 +137,7 @@ Group folders use the archive reference and DGS number. If the reference is unav
 
 Rerun the same command to resume an interrupted batch. Existing images are fully decoded before being skipped. An unfinished page is downloaded again; individual tiles are not retained between runs. Checking a large collection can take time.
 
-Requests are paced, with a 10–25 second pause between newly downloaded pages. Download time depends on the number of tiles and server response times.
+Requests are paced, with a 4–10 second pause between newly downloaded pages. Download time depends on the number of tiles and server response times.
 
 | Exit code | Meaning |
 | --- | --- |

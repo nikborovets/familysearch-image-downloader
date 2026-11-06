@@ -97,9 +97,9 @@ class RequestPacer:
     def __init__(
         self,
         rng: random.Random | None = None,
-        delay_range: tuple[float, float] = (0.3, 0.8),
-        pause_every_range: tuple[int, int] = (10, 16),
-        pause_range: tuple[float, float] = (1.0, 2.5),
+        delay_range: tuple[float, float] = (0.12, 0.35),
+        pause_every_range: tuple[int, int] = (18, 30),
+        pause_range: tuple[float, float] = (0.4, 1.2),
     ) -> None:
         self._rng = rng or random.Random()
         self._delay_range = delay_range
@@ -687,7 +687,7 @@ def download_document(
     output_dir: Path,
     fssessionid: str,
     jpeg_quality: int = 95,
-    workers: int = 4,
+    workers: int = 8,
     progress: ProgressCallback | None = None,
 ) -> DownloadResult:
     if not 70 <= jpeg_quality <= 100:

@@ -27,7 +27,7 @@ from downloader import (
 )
 
 DEFAULT_OUTPUT_DIR = Path("downloads")
-PAGE_PAUSE_RANGE = (10.0, 25.0)
+PAGE_PAUSE_RANGE = (4.0, 10.0)
 
 
 def console_progress(value: float, message: str) -> None:
@@ -251,8 +251,8 @@ def build_parser() -> argparse.ArgumentParser:
     download.add_argument(
         "--workers",
         type=bounded_integer(1, 16),
-        default=4,
-        help="parallel tile requests (default: 4)",
+        default=8,
+        help="parallel tile requests (default: 8)",
     )
     return parser
 
